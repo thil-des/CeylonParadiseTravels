@@ -1,0 +1,16 @@
+<div class="package-item bg-white mb-2" [routerLink]="routerLink">
+  <img class="img-fluid" [src]="image" alt="" />
+  <div class="p-4">
+    <div class="d-flex justify-content-between mb-3">
+      <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>{{ days }}</small>
+      <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{ persons }}</small>
+    </div>
+    <a class="h5 text-decoration-none" [routerLink]="routerLink">{{ title }}</a>
+    <div class="border-top mt-4 pt-4">
+      <div class="d-flex justify-content-between">
+        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>{{ rating }}</h6>
+        <h5 class="m-0">$ {{ price | number:'1.2-2' }}</h5>
+      </div>
+    </div>
+  </div>
+</div>

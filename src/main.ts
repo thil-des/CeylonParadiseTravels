@@ -1,6 +1,26 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { App } from './app/app';
+import { importProvidersFrom } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app/app';
+import { routes } from './app/app.routes';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      BrowserAnimationsModule,
+      RouterModule.forRoot(routes),
+      HttpClientModule,
+ToastrModule.forRoot({
+  timeOut: 3000,
+  positionClass: 'toast-bottom-right',
+  preventDuplicates: true,
+  newestOnTop: true,
+})
+    )
+  ]
+});
