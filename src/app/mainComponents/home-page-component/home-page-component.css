@@ -199,3 +199,24 @@
 .text-center.py-4 {
     flex-grow: 1;
 }
+
+/* Full screen option */
+.carousel-item img {
+    height: 100vh;
+    object-fit: cover;
+}
+
+#header-carousel, 
+#header-carousel .carousel-inner, 
+#header-carousel .carousel-item {
+    width: 100%;
+    overflow: hidden;
+}
+
+html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+
