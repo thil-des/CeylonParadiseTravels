@@ -1,0 +1,90 @@
+#google_translate_element select,
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
+
+.translate-flags img {
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.navbar-color {
+    background-color: #261124; /* Primary color */
+}
+
+.navbar-color .nav-link,
+.navbar-color .navbar-brand h1 {
+    color: #ada878; /* White text */
+}
+
+.navbar-color .nav-link:hover,
+.navbar-color .nav-link.active {
+    color: #ada878; /* Optional: lighter shade for hover/active */
+}
+
+.navbar-color .dropdown-menu {
+    background-color:#261124; /* Match navbar background */
+}
+
+.navbar-color .dropdown-item {
+    color: #261124; /* Text color */
+}
+
+.navbar-color .dropdown-item:hover {
+    background-color: #ada878; /* Lighter hover effect */
+    color: #261124; /* Text color on hover */
+}
+
+.whatsapp-float {
+    position: fixed;
+    left: 20px;        
+    bottom: 20px;      
+    background-color: #25D366; 
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 30px;
+    z-index: 1000;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+}
+
+/* Tooltip */
+.whatsapp-float::after {
+    content: "WhatsApp Us";
+    position: absolute;
+    left: 70px;       /* space from the button */
+    background-color: #25D366;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateX(-10px);
+}
+
+/* Hover effect */
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: white;
+}
+
+.whatsapp-float:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+

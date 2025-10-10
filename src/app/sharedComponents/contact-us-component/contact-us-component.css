@@ -1,0 +1,16 @@
+.white-text {
+  color: white !important;
+}
+.white-text a {
+  color: #ffffff !important; /* links also white */
+  text-decoration: underline;
+}
+
+.white-text h1,
+.white-text h2,
+.white-text h3,
+.white-text h4,
+.white-text h5,
+.white-text h6 {
+  color: white !important;
+}
