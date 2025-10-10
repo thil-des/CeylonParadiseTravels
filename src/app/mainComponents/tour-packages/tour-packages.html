@@ -1,0 +1,55 @@
+<!-- Header Start -->
+<div class="container-fluid page-header">
+    <div class="container">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+            <h3 class="display-4 text-white text-uppercase">Packages</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Packages</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+
+<!-- Packages Start -->
+<div class="container-fluid py-5 bg-light">
+    <div class="container pt-5 pb-3">
+        <div class="text-center mb-5">
+            <h6 class="text-primary text-uppercase tracking-widest">Packages</h6>
+            <h1 class="font-bold text-4xl">Perfect Tour Packages</h1>
+        </div>
+
+        <div class="flex text-center mb-10 relative">
+            <button class="tab-btn-outline" [class.active]="activeTab==='multi'" (click)="setTab('multi')">
+                Multi-Day Tours
+            </button>
+            <button class="tab-btn-outline" [class.active]="activeTab==='day'" (click)="setTab('day')">
+                Day Tours
+            </button>
+
+        </div>
+
+
+        <!-- Tab Content -->
+        <div class="row">
+            <div *ngFor="let tour of activeTab==='day' ? dayTours : multiDayTours; let i = index"
+                class="col-lg-4 col-md-6 mb-4 package-card-wrapper" [style.--i]="i">
+                <app-package-item-component [image]="tour.image" [days]="tour.days" [persons]="tour.persons"
+                    [rating]="tour.rating" [price]="tour.price" [title]="tour.title" [routerLink]="tour.routerLink"
+                    class="package-card">
+                </app-package-item-component>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Packages End -->
+
+<router-outlet></router-outlet>
+<!-- Destination Start -->
