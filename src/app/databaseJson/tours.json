@@ -1,0 +1,56 @@
+{
+  "dayTours": [
+      {
+        "id": 2,
+        "title": "Ella Day Tour - Departing from Any Location in Sri Lanka",
+        "days": "3 days",
+        "persons": "20 Person",
+        "rating": 5,
+        "price": 266.69,
+        "image": "assets/img/package-5.jpg",
+        "routerLink": "/Elladaystours"
+      }
+],
+"multiDayTours": [
+    {
+      "id": 1,
+      "title": "Sigiriya and Kandy 2 Days Private Tour with HB Deluxe Accommodation",
+      "days": "2 days",
+      "persons": "20 Person",
+      "rating": 4.5,
+      "price": 450.0,
+      "image": "assets/img/package-3.jpg",
+      "routerLink": "/twodaystours"
+    },
+    {
+      "id": 3,
+      "title": "Sri Lanka 5 Days Tour with 4 Star Hotels and Private Transportation",
+      "days": "5 days",
+      "persons": "20 Person",
+      "rating": 5,
+      "price": 987.5,
+      "image": "assets/img/package-4.jpg",
+      "routerLink": "/fivedaystours"
+    },
+    {
+      "id": 4,
+      "title": "Sri Lanka 7 Days Tour with 4 Star Hotels and Private Transportation",
+      "days": "7 days",
+      "persons": "20 Person",
+      "rating": 5,
+      "price": 1187.5,
+      "image": "assets/img/package-1.jpg",
+      "routerLink": "/sevendaystours"
+    },
+    {
+      "id": 5,
+      "title": "Sri Lanka 10 Days Tour with 4 Star Hotels and Private Transportation",
+      "days": "10 days",
+      "persons": "20 Person",
+      "rating": 5,
+      "price": 1687.5,
+      "image": "assets/img/package-2.jpg",
+      "routerLink": "/tendaystours"
+    }
+  ]
+}

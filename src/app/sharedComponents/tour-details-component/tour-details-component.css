@@ -1,0 +1,263 @@
+  .uniform-icon {
+    color: #501f4b; /* Bootstrap primary blue */
+  }
+
+  h5 {
+  transition: background 0.3s;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+h5:hover {
+  background-color: #f0f0f0;
+}
+
+ul {
+  margin-left: 20px;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.itinerary-header {
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.itinerary-header:hover {
+  background-color: #501f4b;
+  color: #fff;
+  transform: translateX(5px);
+}
+
+.itinerary-header:hover span {
+  transform: rotate(180deg);
+}
+
+.itinerary-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.itinerary-content.open {
+  max-height: 1000px;
+  transition: max-height 0.9s ease-in;
+}
+
+.location-icon {
+  color: #ada878;
+  font-size: 1rem; 
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.itinerary-content {
+  padding-left: 40px; /* shift content slightly to the right */
+}
+.itinerary-content ul {
+  padding-left: 20px; /* extra indent for lists */
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+/* Square modal image */
+.image-modal .modal-content {
+  width: 1000px;       /* fixed square width */
+  height: 800px;      /* fixed square height */
+  object-fit: cover;  /* maintain aspect ratio, cover the square */
+  border-radius: 10px;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  z-index: 1100;
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.9);
+}
+
+  .uniform-icon {
+    color: #501f4b; /* Bootstrap primary blue */
+  }
+
+  h5 {
+  transition: background 0.3s;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+h5:hover {
+  background-color: #f0f0f0;
+}
+
+ul {
+  margin-left: 20px;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.itinerary-header {
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.itinerary-header:hover {
+  background-color: #501f4b;
+  color: #fff;
+  transform: translateX(5px);
+}
+
+.itinerary-header:hover span {
+  transform: rotate(180deg);
+}
+
+.itinerary-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.itinerary-content.open {
+  max-height: 400px;
+  transition: max-height 0.9s ease-in;
+}
+
+.location-icon {
+  color: #ada878;
+  font-size: 1rem; 
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.itinerary-content {
+  padding-left: 40px; /* shift content slightly to the right */
+}
+.itinerary-content ul {
+  padding-left: 20px; /* extra indent for lists */
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+/* Square modal image */
+.image-modal .modal-content {
+  width: 1000px;       /* fixed square width */
+  height: 800px;      /* fixed square height */
+  object-fit: cover;  /* maintain aspect ratio, cover the square */
+  border-radius: 10px;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  z-index: 1100;
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.9);
+}
+
+/* Scrollable area inside itinerary when too tall */
+.scrollable-activities {
+  overflow-y: auto;
+  padding-right: 8px; /* avoid text hiding under scrollbar */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #ccc transparent;
+}
+
+/* Optional scrollbar style for Chrome, Edge, Safari */
+.scrollable-activities::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-activities::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.scrollable-activities::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
