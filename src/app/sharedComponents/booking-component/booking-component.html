@@ -1,0 +1,189 @@
+<div class="container-fluid page-header">
+    <div class="container">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+            <h3 class="display-4 text-white text-uppercase">Booking</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Booking</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="container pt-5 pb-3">
+        <div class="text-center mb-5">
+            <h6 class="text-primary text-uppercase tracking-widest">BOOK NOW</h6>
+            <h1 class="font-bold text-4xl">Book Tour Packages</h1>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-6" *ngIf="!bookingCompleted">
+            <div *ngIf="tour" class="card shadow-lg border-0 overflow-hidden animate__animated animate__slideInLeft">
+                <img [src]="image" class="card-img-top tour-img" alt="{{ tour.title }}">
+                <div class="card-body">
+                    <h3 class="card-title">{{ tour.title }}</h3>
+                    <p class="text-muted">{{ tour.tourType }} | Duration: {{ tour.duration }}</p>
+                    <div class="d-flex flex-wrap gap-2 my-3">
+                        <span class="badge bg-primary text-white">Price: {{ tour.price }}</span>
+                        <span class="badge ml-2 text-primary" style="background-color: #ada878;">Order : {{ orderNumber
+                            }}</span>
+                    </div>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Subtotal
+                            <span>${{ subtotal.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total
+                            <span>${{ total.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Amount Paid
+                            <span>${{ amountPaid.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Amount Due
+                            <span class="fw-bold text-primary">${{ amountDue.toFixed(2) }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6" *ngIf="!bookingCompleted">
+            <div class=" shadow-lg border-0 rounded-3 p-4 ">
+                <h4 class="mb-3 text-center">Book Your Tour</h4>
+                <form (ngSubmit)="completeBooking()">
+                    <div class="row g-3 mb-3">
+                        <div class="col-lg-6">
+                            <label class="form-label">Number of Travelers</label>
+                            <input type="number" class="form-control" [(ngModel)]="travelers" name="travelers" min="1"
+                                max="20" (change)="updateTravelers($event)">
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label">Select Travel Date</label>
+                            <input type="date" class="form-control" [ngModel]="travelDate | date:'yyyy-MM-dd'"
+                                (ngModelChange)="onTravelDateChange($event)" name="travelDate" required>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" placeholder="John" [(ngModel)]="firstName"
+                                name="firstName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" placeholder="Doe" [(ngModel)]="lastName"
+                                name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" placeholder="example@email.com" [(ngModel)]="email"
+                            name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contact Phone</label>
+                        <input type="tel" class="form-control" placeholder="+94 712345678" [(ngModel)]="phone"
+                            name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount to Pay Now</label>
+                        <input type="text" class="form-control fw-bold text-success" [value]="'$' + total" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method : Payment Later (Pay at Destination)</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="terms">
+                        <label class="form-check-label" for="terms">
+                            I agree to the <a href="#">terms & conditions</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded fw-bold">Complete Booking</button>
+                </form>
+            </div>
+            <div *ngIf="successMessage" class="alert alert-success text-end mt-3">
+                {{ successMessage }}
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="bookingCompleted">
+            <div id="invoiceContent" class="card shadow-lg border-0 p-4 animate__animated animate__fadeInUp"
+                style="border-radius: 1rem; background: linear-gradient(135deg, #f9f9f9, #ffffff);">
+
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-check-circle-fill text-success me-2" style="font-size: 2rem;"></i>
+                    <h3 class="text-success mb-0">Booking Confirmed!</h3>
+                </div>
+
+                <p class="mb-4 text-muted">Your order has been completed and a confirmation email has been sent. Thank
+                    you for booking with us!</p>
+
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge bg-primary text-white p-2">Order #: {{ orderNumber }}</span>
+                    <span class="badge text-dark p-2 ml-2" style="background-color: #ada878;">Date: {{ bookingDate |
+                        date:'medium' }}</span>
+                    <span class="badge bg-success text-white p-2 ml-2">Total: ${{ total.toFixed(2) }}</span>
+                    <span class="badge bg-warning text-dark p-2 ml-2">Payment: Payment Later</span>
+                </div>
+
+                <div class="card border shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold text-primary">Order Details</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>{{ tour.title }}</span>
+                            <span class="fw-bold">${{ total.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Duration</span>
+                            <span>{{ tour.duration }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Tickets ({{ travelers }} person{{ travelers > 1 ? 's' : '' }})</span>
+                            <span>${{ total.toFixed(2) }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card border shadow-sm">
+                    <div class="card-header bg-light fw-bold text-primary">Payment Summary</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Subtotal</span>
+                            <span>${{ subtotal.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total</span>
+                            <span>${{ total.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Amount Paid</span>
+                            <span class="text-success">${{ amountPaid.toFixed(2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Amount Due</span>
+                            <span class="text-danger fw-bold">${{ amountDue.toFixed(2) }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <p class="fw-bold text-primary fs-5">We appreciate your booking! Enjoy your trip 🌴✈️</p>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn btn-outline-primary" (click)="printInvoice()">
+                    <i class="bi bi-printer"></i> Print Invoice
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #toastContainer></div>

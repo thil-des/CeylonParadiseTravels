@@ -1,0 +1,40 @@
+.card {
+  border-radius: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-gradient {
+  background: linear-gradient(90deg, #501f4b, #8e44ad);
+  color: #fff;
+  border: none;
+  transition: background 0.3s;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(90deg, #8e44ad, #501f4b);
+}
+
+.tour-img {
+  max-height: 280px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.25rem 0.25rem 0 0; 
+}
+
+.custom-toast {
+  position: relative;
+  margin: 10px 0;
+}
+
+@media print {
+  button {
+    display: none;
+  }
+}
+
+
