@@ -56,17 +56,24 @@
         <div class="col-lg-6" *ngIf="!bookingCompleted">
             <div class=" shadow-lg border-0 rounded-3 p-4 ">
                 <h4 class="mb-3 text-center">Book Your Tour</h4>
-                <form (ngSubmit)="completeBooking()">
+                <form #bookingForm="ngForm" (ngSubmit)="completeBooking()">
                     <div class="row g-3 mb-3">
                         <div class="col-lg-6">
                             <label class="form-label">Number of Travelers</label>
                             <input type="number" class="form-control" [(ngModel)]="travelers" name="travelers" min="1"
-                                max="20" (change)="updateTravelers($event)">
+                                max="20" (change)="updateTravelers($event)" required #travelersCtrl="ngModel">
+                            <small class="text-danger" *ngIf="travelersCtrl.invalid && travelersCtrl.touched">
+                                Please enter travelers (1–20)
+                            </small>
                         </div>
                         <div class="col-lg-6">
                             <label class="form-label">Select Travel Date</label>
                             <input type="date" class="form-control" [ngModel]="travelDate | date:'yyyy-MM-dd'"
-                                (ngModelChange)="onTravelDateChange($event)" name="travelDate" required>
+                                (ngModelChange)="onTravelDateChange($event)" name="travelDate" required
+                                #dateCtrl="ngModel">
+                            <small class="text-danger" *ngIf="dateCtrl.invalid && dateCtrl.touched">
+                                Travel date is required
+                            </small>
                         </div>
                     </div>
 
@@ -74,24 +81,39 @@
                         <div class="col-md-6">
                             <label class="form-label">First Name</label>
                             <input type="text" class="form-control" placeholder="John" [(ngModel)]="firstName"
-                                name="firstName" required>
+                                name="firstName" required #firstCtrl="ngModel">
+                            <small class="text-danger" *ngIf="firstCtrl.invalid && firstCtrl.touched">
+                                First name is required
+                            </small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Last Name</label>
                             <input type="text" class="form-control" placeholder="Doe" [(ngModel)]="lastName"
-                                name="lastName" required>
+                                name="lastName" required #lastCtrl="ngModel">
+                            <small class="text-danger" *ngIf="lastCtrl.invalid && lastCtrl.touched">
+                                Last name is required
+                            </small>
                         </div>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control" placeholder="example@email.com" [(ngModel)]="email"
-                            name="email" required>
+                            name="email" required #emailCtrl="ngModel">
+                        <small class="text-danger" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+                            Valid email is required
+                        </small>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Contact Phone</label>
                         <input type="tel" class="form-control" placeholder="+94 712345678" [(ngModel)]="phone"
-                            name="phone" required>
+                            name="phone" required pattern="^(\+?\d{9,15})$" #phoneCtrl="ngModel">
+                        <small class="text-danger" *ngIf="phoneCtrl.invalid && phoneCtrl.touched">
+                            Valid phone number is required
+                        </small>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Amount to Pay Now</label>
                         <input type="text" class="form-control fw-bold text-success" [value]="'$' + total" readonly>
@@ -105,7 +127,10 @@
                             I agree to the <a href="#">terms & conditions</a>
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 rounded fw-bold">Complete Booking</button>
+                    <button type="submit" class="btn btn-primary w-100 rounded fw-bold"
+                        [disabled]="bookingForm.invalid">
+                        Complete Booking
+                    </button>
                 </form>
             </div>
             <div *ngIf="successMessage" class="alert alert-success text-end mt-3">

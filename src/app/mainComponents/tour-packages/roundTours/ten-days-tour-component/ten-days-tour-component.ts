@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import toursData from '../../../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../../../sharedComponents/package-item-component/package-item-component';
 
@@ -760,6 +760,8 @@ export class TenDaysTourComponent {
     excludes: ['Drinks', 'Entrance & Activities Fees'],
   };
 
+  constructor(private router: Router) {}
+
   get currentImage() {
     return this.images[this.currentIndex];
   }
@@ -801,6 +803,16 @@ export class TenDaysTourComponent {
   }
 
   bookNow() {
-    console.log('Booking button clicked!');
+    const barcode = 'tendaystours';
+    localStorage.setItem('tour', JSON.stringify(this.tour));
+    localStorage.setItem('filecode', barcode);
+    localStorage.setItem('image', this.images[0]);
+    this.router.navigate(['/booking'], {
+      state: {
+        tour: this.tour,
+        barcode: barcode,
+        Image: this.images[0],
+      },
+    });
   }
 }
