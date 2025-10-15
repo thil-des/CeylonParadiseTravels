@@ -13,7 +13,10 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       BrowserModule,
       BrowserAnimationsModule,
-      RouterModule.forRoot(routes),
+      RouterModule.forRoot(routes, {
+        scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled'
+      }),
       HttpClientModule,
 ToastrModule.forRoot({
   timeOut: 3000,
