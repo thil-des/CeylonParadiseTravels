@@ -82,4 +82,10 @@ reviews = [
       this.next();
     }, 5000); // change slide every 5 seconds
   }
+  scrollToSection(sectionId: string) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+}
 }
