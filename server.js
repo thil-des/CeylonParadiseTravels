@@ -7,10 +7,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve Angular static files
-app.use(express.static(path.join(__dirname, "dist/Travelwebsite/browser")));
-
-
 app.post("/send-booking-email", async (req, res) => {
   const {
     firstName,
