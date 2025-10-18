@@ -13,6 +13,7 @@ app.post("/send-booking-email", async (req, res) => {
     lastName,
     email,
     phone,
+    country,
     travelers,
     tour,
     orderNumber,
@@ -27,15 +28,15 @@ app.post("/send-booking-email", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "lakshithadilan6@gmail.com",
-        pass: "ltzonlzjufivtmib",
+        user: "ceylonparadisetou@gmail.com",
+        pass: "vmcyjknsjlwqydur",
       },
     });
 
     const mailOptions = {
-      from: '"Tour Booking" <lakshithadilan6@gmail.com>',
-      to: "lakshithadilan6@gmail.com",
-      subject: `🛎 New Booking Received - ${tour.title}`,
+      from: '"Tour Booking" <ceylonparadisetou@gmail.com>',
+      to: "ceylonparadisetou@gmail.com",
+      subject: `New Booking Received - ${orderNumber}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333;">
       <h1 style="color: #4CAF50;">🎉 New Booking Received!</h1>
@@ -49,6 +50,7 @@ app.post("/send-booking-email", async (req, res) => {
         <li><strong>Name:</strong> ${firstName} ${lastName}</li>
         <li><strong>Email:</strong> ${email}</li>
         <li><strong>Phone:</strong> ${phone}</li>
+        <li><strong>Country:</strong> ${country}</li>
         <li><strong>Travelers:</strong> ${travelers}</li>
       </ul>
 
@@ -72,9 +74,9 @@ app.post("/send-booking-email", async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     const customerMailOptions = {
-      from: '"Ceylon Paradise Tours" <lakshithadilan6@gmail.com>',
+      from: '"Ceylon Paradise Tours"',
       to: email,
-      subject: `✨ Thank you for your booking! - ${tour.title}`,
+      subject: `Thank you for your booking! - ${tour.title}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333; background: #f9f9f9; padding: 20px; border-radius: 10px;">
       <h1 style="color: #4CAF50;">Thank you for your booking, ${firstName}!</h1>
@@ -131,14 +133,14 @@ app.post("/send-contact-email", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "lakshithadilan6@gmail.com",
-        pass: "ltzonlzjufivtmib",
+        user: "ceylonparadisetou@gmail.com",
+        pass: "vmcyjknsjlwqydur",
       },
     });
 
     await transporter.sendMail({
       from: `"Contact Form" <${email}>`,
-      to: "lakshithadilan6@gmail.com",
+      to: "ceylonparadisetou@gmail.com",
       subject: `📩 New Contact Form Submission from ${name}`,
       html: `
         <div style="font-family: Arial;">
@@ -153,7 +155,7 @@ app.post("/send-contact-email", async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: '"Ceylon Paradise Tours" <lakshithadilan6@gmail.com>',
+      from: '"Ceylon Paradise Tours"',
       to: email,
       subject: `✅ We received your message, ${name}`,
       html: `
