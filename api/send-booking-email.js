@@ -1,13 +1,18 @@
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+import nodemailer from "nodemailer";
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+export default async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin",  "https://travelwebsite-delta.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-app.post("/send-booking-email", async (req, res) => {
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+
   const {
     firstName,
     lastName,
@@ -28,14 +33,14 @@ app.post("/send-booking-email", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "ceylonparadisetou@gmail.com",
-        pass: "vmcyjknsjlwqydur",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     const mailOptions = {
-      from: '"Tour Booking" <ceylonparadisetou@gmail.com>',
-      to: "ceylonparadisetou@gmail.com",
+      from: `"Tour Booking" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
       subject: `New Booking Received - ${orderNumber}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333;">
@@ -122,62 +127,4 @@ app.post("/send-booking-email", async (req, res) => {
       .status(500)
       .json({ success: false, message: "Error sending email", error });
   }
-});
-
-app.post("/send-contact-email", async (req, res) => {
-  console.log('Received contact email request:', req);
-
-  const { name, email, whatsapp, message } = req.body;
-
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: "ceylonparadisetou@gmail.com",
-        pass: "vmcyjknsjlwqydur",
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"Contact Form" <${email}>`,
-      to: "ceylonparadisetou@gmail.com",
-      subject: `📩 New Contact Form Submission from ${name}`,
-      html: `
-        <div style="font-family: Arial;">
-          <h2>Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>WhatsApp:</strong> ${whatsapp}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
-        </div>
-      `,
-    });
-
-    await transporter.sendMail({
-      from: '"Ceylon Paradise Tours"',
-      to: email,
-      subject: `✅ We received your message, ${name}`,
-      html: `
-        <div style="font-family: Arial; background: #f9f9f9; padding: 20px;">
-          <h2>Thank you for contacting us, ${name}!</h2>
-          <p>We have received your message and will get back to you shortly.</p>
-          <p><strong>Your Message:</strong> ${message}</p>
-          <p>Best regards,<br/>Ceylon Paradise Tours Team</p>
-        </div>
-      `,
-    });
-
-    res.json({ success: true, message: "Contact emails sent successfully" });
-  } catch (error) {
-    console.error("Contact email error:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Error sending contact email" });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+};
