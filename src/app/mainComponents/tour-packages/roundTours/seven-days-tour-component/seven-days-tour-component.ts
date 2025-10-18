@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
 import toursData from '../../../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../../../sharedComponents/package-item-component/package-item-component';
@@ -428,6 +428,8 @@ export class SevenDaysTourComponent implements OnInit, OnDestroy {
     excludes: ['Food & Drinks', 'Entrance & Activities Fees'],
   };
 
+  constructor(private router: Router) {}
+
   get currentImage() {
     return this.images[this.currentIndex];
   }
@@ -469,6 +471,16 @@ export class SevenDaysTourComponent implements OnInit, OnDestroy {
   }
 
   bookNow() {
-    console.log('Booking button clicked!');
+    const barcode = 'sevendaystours';
+    localStorage.setItem('tour', JSON.stringify(this.tour));
+    localStorage.setItem('filecode', barcode);
+    localStorage.setItem('image', this.images[0]);
+    this.router.navigate(['/booking'], {
+      state: {
+        tour: this.tour,
+        barcode: barcode,
+        Image: this.images[0],
+      },
+    });
   }
 }

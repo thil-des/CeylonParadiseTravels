@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environment';
 import { ToastrService } from 'ngx-toastr';
+import countriesData from './../../../assets/data/countries.json';
+import countryCode from './../../../assets/data/countryCode.json';
 
 @Component({
   selector: 'app-booking-component',
@@ -32,8 +34,14 @@ export class BookingComponent {
   firstName = '';
   lastName = '';
   email = '';
-  phone = '';
   successMessage = '';
+  country: string = '';
+  countries: string[] = [];
+  countriesList = countryCode; // imported from JSON
+  selectedCountry = this.countriesList.find(c => c.code === 'LK'); // default to Sri Lanka
+  phoneNumber = ''; 
+  
+
 
   constructor(
     private router: Router,
@@ -49,7 +57,8 @@ export class BookingComponent {
       barcode: string;
       image: string;
     };
-    console.log(navState);
+
+    this.countries = countriesData.countries;
 
     if (navState?.tour) {
       this.tour = navState.tour;
@@ -86,6 +95,10 @@ export class BookingComponent {
       this.loadTourPrices(this.filecode);
     }
   }
+
+  get fullPhone(): string {
+  return this.selectedCountry ? `${this.selectedCountry.dial_code}${this.phoneNumber}` : this.phoneNumber;
+}
 
   loadTourPrices(fileName: string) {
     this.http.get(`/assets/data/${fileName}.json`).subscribe((data: any) => {
@@ -135,7 +148,8 @@ export class BookingComponent {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      phone: this.phone,
+      phone: this.fullPhone,
+      country: this.country,
       travelers: this.travelers,
       tour: this.tour,
       orderNumber: this.orderNumber,
