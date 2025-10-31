@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "npx ng build --configuration production",
+  "outputDirectory": "dist/Travelwebsite/browser",
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
