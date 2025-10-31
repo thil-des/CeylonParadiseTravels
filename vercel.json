@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "dist/Travelwebsite/browser/**", "use": "@vercel/static" }
-  ],
   "routes": [
   { "src": "/assets/(.*)", "dest": "/dist/Travelwebsite/browser/assets/$1" },
   { "src": "/(.*\\.js)", "dest": "/dist/Travelwebsite/browser/$1" },
