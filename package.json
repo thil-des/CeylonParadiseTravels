@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npx ng build --configuration production",
-    "watch": "npx ng build --watch --configuration development",
+    "build": "npx --no-install ng build --configuration production",
+    "watch": "npx --no-install ng build --watch --configuration development",
     "test": "ng test"
   },
   "prettier": {
