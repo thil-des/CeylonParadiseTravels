@@ -20,7 +20,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.3.1",
+    "@angular/animations": "^20.3.4",
     "@angular/common": "^20.3.4",
     "@angular/compiler": "^20.3.4",
     "@angular/core": "^20.3.4",
@@ -43,8 +43,8 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^20.3.5",
-    "@angular/cli": "^20.3.5",
+    "@angular/build": "^20.3.4",
+    "@angular/cli": "^20.3.4",
     "@angular/compiler-cli": "^20.3.4",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.8.0",
@@ -53,7 +53,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.0"
   },
   "description": "This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.1.",
   "main": "index.js",

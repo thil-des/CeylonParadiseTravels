@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'https://travelwebsite-delta.vercel.app/api'
+  backendUrl: 'https://ceylon-paradise-travels.vercel.app/api'
 };
