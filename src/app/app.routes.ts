@@ -17,6 +17,9 @@ import { FiveDaysTourComponent } from './mainComponents/tour-packages/roundTours
 import { EllaDayTourComponent } from './mainComponents/tour-packages/dayTours/ella-day-tour-component/ella-day-tour-component';
 import { BookingComponent } from './sharedComponents/booking-component/booking-component';
 import { ContactUsComponent } from './sharedComponents/contact-us-component/contact-us-component';
+import { GalleDayTour } from './mainComponents/tour-packages/dayTours/galle-day-tour/galle-day-tour';
+import { KandyDayTourComponent } from './mainComponents/tour-packages/dayTours/kandy-day-tour-component/kandy-day-tour-component';
+import { SigiriyaDayTourComponent } from './mainComponents/tour-packages/dayTours/sigiriya-day-tour-component/sigiriya-day-tour-component';
 
 
 
@@ -56,6 +59,18 @@ export const routes: Routes = [
         {
           path: 'Elladaystours',
           component: EllaDayTourComponent
+        },
+        {
+          path: 'Galledaystours',
+          component: GalleDayTour
+        },
+        {
+          path: 'Kandydaystours',
+          component: KandyDayTourComponent
+        },
+        {
+          path: 'Sirgiriyadaystours',
+          component: SigiriyaDayTourComponent
         },
         {
           path: 'fivedaystours',

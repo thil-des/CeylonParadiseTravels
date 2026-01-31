@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
+import { TourDetails, TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
 import toursData from '../../../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../../../sharedComponents/package-item-component/package-item-component';
+import { HttpClient } from '@angular/common/http';
+import { CountryService } from '../../../../Services/country.service';
 
 @Component({
   selector: 'app-seven-days-tour-component',
@@ -14,17 +16,19 @@ import { PackageItemComponent } from '../../../../sharedComponents/package-item-
 })
 export class SevenDaysTourComponent implements OnInit, OnDestroy {
   images: string[] = [
-    'assets/img/package-1.jpg',
-    'assets/img/package-2.jpg',
-    'assets/img/package-3.jpg',
-    'assets/img/package-4.jpg',
-    'assets/img/package-5.jpg',
+    'assets/img/7dayschange/2.jpeg',
+    'assets/img/7dayschange/1.jpeg',
+    'assets/img/7dayschange/w3a48osbcocecoaaq9hd.jpg',
+    'assets/img/7dayschange/tijr5ztiozgdesbxotm4.jpg',
+    'assets/img/7dayschange/dqzhbtiaqzhf0hxbbrar.jpg',
   ];
 
   currentIndex = 0;
   intervalId: any;
   multiDayTours: any[] = [];
   selectedTours: any[] = [];
+  userCountry = 'US';
+  price = 0;
 
   tour = {
     title: 'Sri Lanka Seven Days Tour',
@@ -32,7 +36,7 @@ export class SevenDaysTourComponent implements OnInit, OnDestroy {
       'Experience the beauty of Sri Lanka with 7 days full of adventure, culture, and relaxation.',
     duration: '7 Days',
     persons: '20 Persons',
-    price: '$1,875',
+    filecode: "sevendaystours",
     overview: `We are here for you to organize the perfect holiday you always dreamed of in 'Paradise Island', Sri Lanka.
     Our 7days(6 nights) travel package is scheduled in a way that you'll cover not only all the famous attractions but also some of the rare experiences that are very unique to Ceylon Paradise Travels while accomadating our guests in Sri Lanka's finest 4 star category hotels on half board basis.
     Yala Safari, Sigiriya, Ella Nine Arches Bridge, Ella train journey, Kandy Sacred Tooth Relic Temple, Ramboda watefall, Little Adam's Peak hike, Nuwara Eliya, Galle Fort, Bentota River tour are just to name a few main attractions that you'll cover during the journey.
@@ -428,11 +432,30 @@ export class SevenDaysTourComponent implements OnInit, OnDestroy {
     excludes: ['Food & Drinks', 'Entrance & Activities Fees'],
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private countryService: CountryService
+  ) {}
 
   get currentImage() {
     return this.images[this.currentIndex];
   }
+
+    get tourForDetails(): TourDetails {
+      return {
+        title: this.tour.title,
+        description: this.tour.description,
+        duration: this.tour.duration,
+        persons: this.tour.persons,
+        price: this.price,
+        tourType: this.tour.tourType,
+        overview: this.tour.overview,
+        itinerary: this.tour.itinerary,
+        includes: this.tour.includes,
+        excludes: this.tour.excludes,
+      };
+    }
 
   get nextImages() {
     return Array.from({ length: 4 }, (_, i) => {
@@ -458,10 +481,37 @@ export class SevenDaysTourComponent implements OnInit, OnDestroy {
     this.currentIndex = index;
   }
 
-  ngOnInit() {
-    this.multiDayTours = toursData.multiDayTours;
+  async ngOnInit() {
+    this.userCountry = await this.countryService.detectCountry();
+    this.price = await this.loadPrice(this.tour.filecode);
+    this.multiDayTours = await this.loadToursWithPrices(toursData.multiDayTours);
     this.selectedTours = this.multiDayTours.sort(() => 0.5 - Math.random()).slice(0, 3);
     this.intervalId = setInterval(() => this.nextImage(), 3000);
+  }
+
+    async loadToursWithPrices(tours: any[]) {
+    return Promise.all(
+      tours.map(async (tour) => {
+        const price = await this.loadPrice(tour.filecode);
+        return { ...tour, price };
+      })
+    );
+  }
+
+  loadPrice(filecode: string): Promise<number> {
+    const countryFile = `/assets/data/${this.userCountry}${filecode}.json`;
+    const defaultFile = `/assets/data/US${filecode}.json`;
+
+    return new Promise((resolve) => {
+      this.http.get(countryFile).subscribe({
+        next: (data: any) => resolve(data.price[1] ?? 0),
+        error: () => {
+          this.http.get(defaultFile).subscribe((data: any) => {
+            resolve(data.price[1] ?? 0);
+          });
+        }
+      });
+    });
   }
 
   ngOnDestroy() {

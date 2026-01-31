@@ -15,15 +15,15 @@ bootstrapApplication(AppComponent, {
       BrowserAnimationsModule,
       RouterModule.forRoot(routes, {
         scrollPositionRestoration: 'top',
-        anchorScrolling: 'enabled'
+        anchorScrolling: 'enabled',
       }),
       HttpClientModule,
-  ToastrModule.forRoot({
-  timeOut: 3000,
-  positionClass: 'toast-bottom-right',
-  preventDuplicates: true,
-  newestOnTop: true,
-})
-    )
-  ]
+      ToastrModule.forRoot({
+        timeOut: 3000,
+        positionClass: 'toast-bottom-right',
+        preventDuplicates: true,
+        newestOnTop: true,
+      }),
+    ),
+  ],
 });

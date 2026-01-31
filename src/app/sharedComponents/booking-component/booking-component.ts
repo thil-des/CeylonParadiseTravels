@@ -7,6 +7,7 @@ import { environment } from '../../../../environment';
 import { ToastrService } from 'ngx-toastr';
 import countriesData from './../../../assets/data/countries.json';
 import countryCode from './../../../assets/data/countryCode.json';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-booking-component',
@@ -37,11 +38,10 @@ export class BookingComponent {
   successMessage = '';
   country: string = '';
   countries: string[] = [];
-  countriesList = countryCode; // imported from JSON
-  selectedCountry = this.countriesList.find(c => c.code === 'LK'); // default to Sri Lanka
-  phoneNumber = ''; 
-  
-
+  countriesList = countryCode;
+  selectedCountry = this.countriesList.find((c) => c.code === 'LK');
+  phoneNumber = '';
+  userCountry: string = 'US';
 
   constructor(
     private router: Router,
@@ -49,7 +49,9 @@ export class BookingComponent {
     private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.userCountry = await this.detectCountry();
+    console.log('User country detected as:', this.userCountry);
     this.generateOrderNumber();
 
     const navState = this.router.getCurrentNavigation()?.extras.state as {
@@ -86,26 +88,46 @@ export class BookingComponent {
         };
       }
     }
-
-    const storedPrices = localStorage.getItem('prices');
-    if (storedPrices) {
-      this.prices = JSON.parse(storedPrices);
-      this.updateAmounts();
-    } else if (this.filecode) {
+    
+    if (this.filecode) {
       this.loadTourPrices(this.filecode);
     }
   }
 
   get fullPhone(): string {
-  return this.selectedCountry ? `${this.selectedCountry.dial_code}${this.phoneNumber}` : this.phoneNumber;
-}
+    return this.selectedCountry
+      ? `${this.selectedCountry.dial_code}${this.phoneNumber}`
+      : this.phoneNumber;
+  }
+
+  async detectCountry(): Promise<string> {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      return data.country;
+    } catch {
+      return 'US';
+    }
+  }
 
   loadTourPrices(fileName: string) {
-    this.http.get(`/assets/data/${fileName}.json`).subscribe((data: any) => {
-      this.prices = data.price;
-      localStorage.setItem('prices', JSON.stringify(this.prices));
-      this.updateAmounts();
-    });
+    const countryFile = `/assets/data/${this.userCountry}${fileName}.json`;
+    const defaultFile = `/assets/data/US${fileName}.json`;
+    this.http
+      .get(countryFile)
+      .pipe(
+        catchError((err) => {
+          console.warn(
+            `Price file not found for ${this.userCountry}, loading default prices`
+          );
+          return this.http.get(defaultFile);
+        })
+      )
+      .subscribe((data: any) => {
+        this.prices = data.price;
+        localStorage.setItem('prices', JSON.stringify(this.prices));
+        this.updateAmounts();
+      });
   }
 
   generateOrderNumber() {
@@ -170,7 +192,8 @@ export class BookingComponent {
         },
         error: (err) => {
           console.error('Email error:', err);
-          this.successMessage = 'There was an error processing your booking. Please try again later.';
+          this.successMessage =
+            'There was an error processing your booking. Please try again later.';
         },
       });
   }

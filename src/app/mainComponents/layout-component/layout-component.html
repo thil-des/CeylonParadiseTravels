@@ -1,4 +1,4 @@
-<div class="navbar-color pt-3 d-none d-lg-flex justify-content-between align-items-center px-4">
+<div class="navbar-color pt-4 d-none d-lg-flex justify-content-between align-items-center px-4">
 
     <!-- Left side: email & phone -->
     <div class="d-inline-flex align-items-center">
@@ -9,6 +9,30 @@
 
     <!-- Right side: social icons -->
     <div class="d-inline-flex align-items-center">
+        <div class="lang-pill">
+            <button class="lang-flag" [class.active]="activeLang === 'en'" (click)="changeLang('en')" title="English">
+                <img src="https://flagcdn.com/w20/us.png" alt="EN">
+            </button>
+            <button class="lang-flag" [class.active]="activeLang === 'de'" (click)="changeLang('de')" title="Deutsch">
+                <img src="https://flagcdn.com/w20/de.png" alt="DE">
+            </button>
+            <button class="lang-flag" [class.active]="activeLang === 'it'" (click)="changeLang('it')" title="Italiano">
+                <img src="https://flagcdn.com/w20/it.png" alt="IT">
+            </button>
+            <button class="lang-flag" [class.active]="activeLang === 'fr'" (click)="changeLang('fr')" title="Français">
+                <img src="https://flagcdn.com/w20/fr.png" alt="FR">
+            </button>
+            <button class="lang-flag" [class.active]="activeLang === 'es'" (click)="changeLang('es')" title="spanish">
+                <img src="https://flagcdn.com/w20/es.png" alt="es">
+            </button>
+            <button class="lang-flag" [class.active]="activeLang === 'zh-CN'" (click)="changeLang('zh-CN')" title="中文">
+                <img src="https://flagcdn.com/w20/cn.png" alt="cn">
+            </button>
+<!-- 
+            <button class="lang-flag" [class.active]="activeLang === 'si'" (click)="changeLang('si')" title="සිංහල">
+                <img src="https://flagcdn.com/w20/lk.png" alt="SI">
+            </button> -->
+        </div>
         <a class="btn nav-link btn-square mr-2" href="https://www.facebook.com/ceylonparadisetour" target="_blank">
             <i class="fab fa-facebook-f"></i>
         </a>
@@ -45,17 +69,17 @@
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
                     <a href="index.html" class="nav-item nav-link active nav-link">Home</a>
-                    <a href="/about" class="nav-item nav-link nav-link">About</a>
-                    <a href="/service" class="nav-item nav-link nav-link">Services</a>
                     <a href="/packages" class="nav-item nav-link nav-link">Tour Packages</a>
-                    <div class="nav-item dropdown">
+                    <a href="/service" class="nav-item nav-link nav-link">Services</a>
+                    <a href="/about" class="nav-item nav-link nav-link">About</a>
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle nav-link" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu border-0 rounded-0 m-0">
-                            <!-- <a href="/destination" class="dropdown-item nav-link text-white">Destination</a> -->
+                            <a href="/destination" class="dropdown-item nav-link text-white">Destination</a>
                             <a href="/travel-guides" class="dropdown-item nav-link text-white">Travel Guides</a>
                             <a href="/testimonial" class="dropdown-item nav-link text-white">Testimonial</a>
                         </div>
-                    </div>
+                    </div> -->
                     <a href="/contact" class="nav-item nav-link nav-link">Contact</a>
                 </div>
             </div>
@@ -122,7 +146,7 @@
                     <input type="text" class="form-control border-light" style="padding: 25px;"
                         placeholder="Your Email">
                     <div class="input-group-append">
-                        <button routerLink="/contact"  class="btn btn-primary px-3">Sign Up</button>
+                        <button routerLink="/contact" class="btn btn-primary px-3">Sign Up</button>
                     </div>
                 </div>
             </div>
@@ -137,7 +161,7 @@
             </p>
         </div>
         <div class="col-lg-6 text-center text-md-right">
-            <p class="m-0 text-white-50">Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+            <p class="m-0 text-white-50">Designed by <a href="https://htmlcodex.com">Dilalak Tec</a>
             </p>
         </div>
     </div>

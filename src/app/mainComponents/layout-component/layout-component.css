@@ -14,6 +14,9 @@ body { top: 0px !important; }
 }
 
 .navbar-color {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
     background-color: #261124; /* Primary color */
 }
 
@@ -88,3 +91,46 @@ body { top: 0px !important; }
     transform: translateX(0);
 }
 
+.navbar-color .elfsight-app-ef87654d-df1d-400e-b01f-05eebae1ea0d {
+  position: relative !important;
+  transform: scale(0.85);
+  margin-left: 10px;
+  z-index: 10000;
+}
+
+.lang-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #261124;        /* dark pill */
+  padding: 4px 8px;
+  border-radius: 999px;
+  margin-right: 12px;
+}
+
+.lang-flag {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.lang-flag img {
+  width: 20px;
+  height: 14px;
+  display: block;
+}
+
+.lang-flag:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.lang-flag.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.5);
+}
