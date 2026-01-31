@@ -3,6 +3,8 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import toursData from '../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../sharedComponents/package-item-component/package-item-component';
+import { HttpClient } from '@angular/common/http';
+import { CountryService } from '../../Services/country.service';
 
 @Component({
   selector: 'app-tour-packages',
@@ -14,12 +16,44 @@ import { PackageItemComponent } from '../../sharedComponents/package-item-compon
 export class TourPackages {
   dayTours: any[] = [];
   multiDayTours: any[] = [];
+  userCountry = 'US';
 
   activeTab: 'multi' | 'day' = 'multi';
 
-  ngOnInit() {
-    this.dayTours = toursData.dayTours;
-    this.multiDayTours = toursData.multiDayTours;
+  constructor(
+    private http: HttpClient,
+    private countryService: CountryService
+  ) {}
+
+  async ngOnInit() {
+    this.userCountry = await this.countryService.detectCountry();
+    this.dayTours = await this.loadToursWithPrices(toursData.dayTours);
+    this.multiDayTours = await this.loadToursWithPrices(toursData.multiDayTours);
+  }
+
+  async loadToursWithPrices(tours: any[]) {
+    return Promise.all(
+      tours.map(async (tour) => {
+        const price = await this.loadPrice(tour.filecode);
+        return { ...tour, price };
+      })
+    );
+  }
+
+  loadPrice(filecode: string): Promise<number> {
+    const countryFile = `/assets/data/${this.userCountry}${filecode}.json`;
+    const defaultFile = `/assets/data/US${filecode}.json`;
+
+    return new Promise((resolve) => {
+      this.http.get(countryFile).subscribe({
+        next: (data: any) => resolve(data.price[1] ?? 0),
+        error: () => {
+          this.http.get(defaultFile).subscribe((data: any) => {
+            resolve(data.price[1] ?? 0);
+          });
+        }
+      });
+    });
   }
 
   setTab(tab: 'multi' | 'day') {

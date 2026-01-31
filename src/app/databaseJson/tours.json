@@ -3,12 +3,42 @@
       {
         "id": 2,
         "title": "Ella Day Tour - Departing from Any Location in Sri Lanka",
-        "days": "3 days",
+        "days": "1 days",
         "persons": "20 Person",
         "rating": 5,
-        "price": 266.69,
-        "image": "assets/img/package-5.jpg",
+        "filecode": "daytour-ella",
+        "image": "assets/img/onedayTour/ella/5.jpg",
         "routerLink": "/Elladaystours"
+      },
+      {
+        "id": 6,
+        "title": "Galle Day Tour - Departing from Any Location in Sri Lanka",
+        "days": "1 days",
+        "persons": "20 Person",
+        "rating": 5,
+        "filecode": "daytour-galle",
+        "image": "assets/img/onedayTour/Galle/7.jpg",
+        "routerLink": "/Galledaystours"
+      },
+      {
+        "id": 7,
+        "title": "Kandy Day Tour - Departing from Any Location in Sri Lanka",
+        "days": "1 days",
+        "persons": "20 Person",
+        "rating": 5,
+        "filecode": "daytour-kandy",
+        "image": "assets/img/onedayTour/kandy/3.jpg",
+        "routerLink": "/Kandydaystours"
+      },
+      {
+        "id": 8,
+        "title": "Sigiriya Day Tour - Departing from Any Location in Sri Lanka",
+        "days": "1 days",
+        "persons": "20 Person",
+        "rating": 5,
+        "filecode": "daytour-sigiriya",
+        "image": "assets/img/onedayTour/Sigiriya/3.jpg",
+        "routerLink": "/Sirgiriyadaystours"
       }
 ],
 "multiDayTours": [
@@ -18,7 +48,7 @@
       "days": "2 days",
       "persons": "20 Person",
       "rating": 4.5,
-      "price": 450.0,
+      "filecode": "twodaystours",
       "image": "assets/img/package-3.jpg",
       "routerLink": "/twodaystours"
     },
@@ -28,7 +58,7 @@
       "days": "5 days",
       "persons": "20 Person",
       "rating": 5,
-      "price": 987.5,
+      "filecode": "fivedaystours",
       "image": "assets/img/package-4.jpg",
       "routerLink": "/fivedaystours"
     },
@@ -38,7 +68,7 @@
       "days": "7 days",
       "persons": "20 Person",
       "rating": 5,
-      "price": 1187.5,
+      "filecode": "sevendaystours",
       "image": "assets/img/package-1.jpg",
       "routerLink": "/sevendaystours"
     },
@@ -48,7 +78,7 @@
       "days": "10 days",
       "persons": "20 Person",
       "rating": 5,
-      "price": 1687.5,
+      "filecode": "tendaystours",
       "image": "assets/img/package-2.jpg",
       "routerLink": "/tendaystours"
     }

@@ -26,7 +26,7 @@ export interface TourDetails {
   description: string;
   duration: string;
   persons: string;
-  price: string;
+  price: number;
   tourType?: string;
   overview?: string;
   itinerary?: ItineraryDay[];

@@ -1,31 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
+import {
+  TourDetails,
+  TourDetailsComponent,
+} from '../../../../sharedComponents/tour-details-component/tour-details-component';
 import toursData from '../../../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../../../sharedComponents/package-item-component/package-item-component';
+import { HttpClient } from '@angular/common/http';
+import { CountryService } from '../../../../Services/country.service';
 
 @Component({
   selector: 'app-two-day-tour-component',
   standalone: true,
-  imports: [CommonModule, RouterModule, TourDetailsComponent,PackageItemComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TourDetailsComponent,
+    PackageItemComponent,
+  ],
   templateUrl: './two-day-tour-component.html',
   styleUrls: ['./two-day-tour-component.css'],
 })
 export class TwoDayTourComponent implements OnInit, OnDestroy {
   images: string[] = [
-    'assets/img/package-1.jpg',
-    'assets/img/package-2.jpg',
-    'assets/img/package-3.jpg',
-    'assets/img/package-4.jpg',
-    'assets/img/package-5.jpg',
+    'assets/img/2daysTours/bu73qw3nuu3obcvpsegn.jpg',
+    'assets/img/2daysTours/ctqieqx5ojk33b3sg7zv.jpg',
+    'assets/img/2daysTours/ee9i4pplrqkjewusnhko.jpg',
+    'assets/img/2daysTours/imbkh8kscrihzyrtdllf.jpg',
+    'assets/img/2daysTours/himbgjcj6zckm6de1mhe.jpg',
   ];
 
   currentIndex = 0;
   intervalId: any;
   multiDayTours: any[] = [];
   selectedTours: any[] = [];
-
+  userCountry = 'US';
+  price = 0;
 
   tour = {
     title: 'Sri Lanka Two Days Tour',
@@ -33,7 +44,7 @@ export class TwoDayTourComponent implements OnInit, OnDestroy {
       'Experience the beauty of Sri Lanka with 2 days full of adventure, culture, and relaxation.',
     duration: '2 Days',
     persons: '20 Persons',
-    price: '$450.00',
+    filecode: 'twodaystours',
     overview: `Experience the best of Sigiriya and Kandy on this 2-day private tour with deluxe accommodation(Half Borad) and a dedicated tour guide. 
     Explore Sigiriya's iconic Lion Rock, the enchanting Dambulla Golden Temple, the charming Hiriwadunna village, and an exhilarating wild elephant safari.
     In Kandy, visit the sacred Tooth Relic Temple, stroll along the scenic Kandy Lake, immerse yourself in the beauty of the Peradeniya Botanical Garden, and admire the historic Mathale Hindu Temple. 
@@ -171,8 +182,12 @@ export class TwoDayTourComponent implements OnInit, OnDestroy {
     excludes: ['Food & Drinks', 'Entrance & Activities Fees'],
   };
 
-  constructor(private router: Router) {}
-  
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private countryService: CountryService
+  ) {}
+
   get currentImage() {
     return this.images[this.currentIndex];
   }
@@ -182,6 +197,21 @@ export class TwoDayTourComponent implements OnInit, OnDestroy {
       const index = (this.currentIndex + i + 1) % this.images.length;
       return { src: this.images[index], index };
     });
+  }
+
+  get tourForDetails(): TourDetails {
+    return {
+      title: this.tour.title,
+      description: this.tour.description,
+      duration: this.tour.duration,
+      persons: this.tour.persons,
+      price: this.price,
+      tourType: this.tour.tourType,
+      overview: this.tour.overview,
+      itinerary: this.tour.itinerary,
+      includes: this.tour.includes,
+      excludes: this.tour.excludes,
+    };
   }
 
   nextImage() {
@@ -201,10 +231,37 @@ export class TwoDayTourComponent implements OnInit, OnDestroy {
     this.currentIndex = index;
   }
 
-  ngOnInit() {
-    this.multiDayTours = toursData.multiDayTours;
+  async ngOnInit() {
+    this.userCountry = await this.countryService.detectCountry();
+    this.price = await this.loadPrice(this.tour.filecode);
+    this.multiDayTours = await this.loadToursWithPrices(toursData.multiDayTours);
     this.selectedTours = this.multiDayTours.sort(() => 0.5 - Math.random()).slice(0, 3);
     this.intervalId = setInterval(() => this.nextImage(), 3000);
+  }
+
+    async loadToursWithPrices(tours: any[]) {
+    return Promise.all(
+      tours.map(async (tour) => {
+        const price = await this.loadPrice(tour.filecode);
+        return { ...tour, price };
+      })
+    );
+  }
+
+  loadPrice(filecode: string): Promise<number> {
+    const countryFile = `/assets/data/${this.userCountry}${filecode}.json`;
+    const defaultFile = `/assets/data/US${filecode}.json`;
+
+    return new Promise((resolve) => {
+      this.http.get(countryFile).subscribe({
+        next: (data: any) => resolve(data.price[1] ?? 0),
+        error: () => {
+          this.http.get(defaultFile).subscribe((data: any) => {
+            resolve(data.price[1] ?? 0);
+          });
+        }
+      });
+    });
   }
 
   ngOnDestroy() {

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
+import { TourDetails, TourDetailsComponent } from '../../../../sharedComponents/tour-details-component/tour-details-component';
 import toursData from '../../../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../../../sharedComponents/package-item-component/package-item-component';
+import { HttpClient } from '@angular/common/http';
+import { CountryService } from '../../../../Services/country.service';
 
 @Component({
   selector: 'app-five-days-tour-component',
@@ -14,17 +16,19 @@ import { PackageItemComponent } from '../../../../sharedComponents/package-item-
 })
 export class FiveDaysTourComponent implements OnInit, OnDestroy {
   images: string[] = [
-    'assets/img/package-1.jpg',
-    'assets/img/package-2.jpg',
-    'assets/img/package-3.jpg',
-    'assets/img/package-4.jpg',
-    'assets/img/package-5.jpg',
+    'assets/img/5daysTours/m5mz7zqwjql44ydc4wyl.jpg',
+    'assets/img/5daysTours/fozjxf01vl9yehvucwn2.jpg',
+    'assets/img/5daysTours/c8dyxgodivrwf4hxzziq.jpg',
+    'assets/img/5daysTours/dp8fjrahvepdlhdudxj0.jpg',
+    'assets/img/5daysTours/slqwoimy5yhfgcicn8ob.jpg',
   ];
 
   currentIndex = 0;
   intervalId: any;
   multiDayTours: any[] = [];
   selectedTours: any[] = [];
+  userCountry = 'US';
+  price = 0;
 
 
   tour = {
@@ -33,7 +37,7 @@ export class FiveDaysTourComponent implements OnInit, OnDestroy {
       'Experience the beauty of Sri Lanka with 5 days full of adventure, culture, and relaxation.',
     duration: '5 Days',
     persons: '20 Persons',
-    price: '$987.50',
+    filecode: "fivedaystours",
     overview: `Experience the best of Sri Lanka in just 5 days (4 nights) with our unforgettable tour package! Stay in premium 4-star hotels on a half-board basis while enjoying private transportation throughout your journey.
 This tour covers 20+ must-see attractions across 10 districts, including the thrilling Yala Safari, iconic Sigiriya Rock Fortress, Ella’s scenic train ride, Nine Arches Bridge, Little Adam’s Peak, Sacred Tooth Relic Temple in Kandy,
  Ramboda Falls, colonial Galle Fort, and a peaceful Bentota River tour. Discover the perfect blend of adventure, culture, and relaxation—exclusively with Ceylon Paradise Travels. Let us turn your dream holiday into reality on the Paradise Island of Sri Lanka!`,
@@ -379,7 +383,12 @@ This tour covers 20+ must-see attractions across 10 districts, including the thr
     excludes: ['Food & Drinks', 'Entrance & Activities Fees'],
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private countryService: CountryService
+  ) {}
+
 
   get currentImage() {
     return this.images[this.currentIndex];
@@ -392,6 +401,20 @@ This tour covers 20+ must-see attractions across 10 districts, including the thr
     });
   }
 
+  get tourForDetails(): TourDetails {
+    return {
+      title: this.tour.title,
+      description: this.tour.description,
+      duration: this.tour.duration,
+      persons: this.tour.persons,
+      price: this.price,
+      tourType: this.tour.tourType,
+      overview: this.tour.overview,
+      itinerary: this.tour.itinerary,
+      includes: this.tour.includes,
+      excludes: this.tour.excludes,
+    };
+  }
   nextImage() {
     this.currentIndex = (this.currentIndex + 1) % this.images.length;
   }
@@ -409,10 +432,37 @@ This tour covers 20+ must-see attractions across 10 districts, including the thr
     this.currentIndex = index;
   }
 
-  ngOnInit() {
-    this.multiDayTours = toursData.multiDayTours;
+  async ngOnInit() {
+    this.userCountry = await this.countryService.detectCountry();
+    this.price = await this.loadPrice(this.tour.filecode);
+    this.multiDayTours = await this.loadToursWithPrices(toursData.multiDayTours);
     this.selectedTours = this.multiDayTours.sort(() => 0.5 - Math.random()).slice(0, 3);
     this.intervalId = setInterval(() => this.nextImage(), 3000);
+  }
+
+    async loadToursWithPrices(tours: any[]) {
+    return Promise.all(
+      tours.map(async (tour) => {
+        const price = await this.loadPrice(tour.filecode);
+        return { ...tour, price };
+      })
+    );
+  }
+
+  loadPrice(filecode: string): Promise<number> {
+    const countryFile = `/assets/data/${this.userCountry}${filecode}.json`;
+    const defaultFile = `/assets/data/US${filecode}.json`;
+
+    return new Promise((resolve) => {
+      this.http.get(countryFile).subscribe({
+        next: (data: any) => resolve(data.price[1] ?? 0),
+        error: () => {
+          this.http.get(defaultFile).subscribe((data: any) => {
+            resolve(data.price[1] ?? 0);
+          });
+        }
+      });
+    });
   }
 
   ngOnDestroy() {
