@@ -46,13 +46,34 @@ export class TourPackages {
 
     return new Promise((resolve) => {
       this.http.get(countryFile).subscribe({
-        next: (data: any) => resolve(data.price[1] ?? 0),
+        next: (data: any) => {
+          if (data && data.price && data.price[1] != null) {
+            resolve(data.price[1]);
+          } else {
+            this.loadDefaultPrice(defaultFile, resolve);
+          }
+        },
         error: () => {
-          this.http.get(defaultFile).subscribe((data: any) => {
-            resolve(data.price[1] ?? 0);
-          });
-        }
+          this.loadDefaultPrice(defaultFile, resolve);
+        },
       });
+    });
+  }
+
+  private loadDefaultPrice(file: string, resolve: (v: number) => void) {
+    this.http.get(file).subscribe({
+      next: (data: any) => {
+        if (data && data.price && data.price[1] != null) {
+          resolve(data.price[1]);
+        } else {
+          console.error('Invalid default price file:', file);
+          resolve(0);
+        }
+      },
+      error: () => {
+        console.error('Default price file missing:', file);
+        resolve(0);
+      },
     });
   }
 
