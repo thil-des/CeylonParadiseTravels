@@ -3,16 +3,21 @@ import toursData from '../../databaseJson/tours.json';
 import { PackageItemComponent } from '../../sharedComponents/package-item-component/package-item-component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ContactUsComponent } from "../../sharedComponents/contact-us-component/contact-us-component";
+import { ContactUsComponent } from '../../sharedComponents/contact-us-component/contact-us-component';
 import { HttpClient } from '@angular/common/http';
 import { CountryService } from '../../Services/country.service';
 
 @Component({
   selector: 'app-home-page-component',
   standalone: true,
-  imports: [CommonModule, PackageItemComponent, RouterModule, ContactUsComponent],
+  imports: [
+    CommonModule,
+    PackageItemComponent,
+    RouterModule,
+    ContactUsComponent,
+  ],
   templateUrl: './home-page-component.html',
-  styleUrl: './home-page-component.css'
+  styleUrl: './home-page-component.css',
 })
 export class HomePageComponent {
   homecontact = true;
@@ -24,50 +29,56 @@ export class HomePageComponent {
 
   activeTab: 'multi' | 'day' = 'multi';
 
-reviews = [
+  reviews = [
     {
       name: 'Sri Lanka With Roshan',
       date: 'April 28, 2025',
-      comment: 'We had a really wonderful time in Sri Lanka. We booked just the car with driver and made our own hotel bookings. The tour was quite in that it was...',
+      comment:
+        'We had a really wonderful time in Sri Lanka. We booked just the car with driver and made our own hotel bookings. The tour was quite in that it was...',
       photo: 'assets/img/testimonial-1.jpg',
       profession: 'XCOUNTRYTO',
-      rating: 5
+      rating: 5,
     },
     {
       name: 'Unforgettable Experience!',
       date: 'April 28, 2025',
-      comment: 'Excellent trip with amazing and safe driver Roshan! We loved the landscape, the friendly people and the delicious...',
+      comment:
+        'Excellent trip with amazing and safe driver Roshan! We loved the landscape, the friendly people and the delicious...',
       photo: 'assets/img/testimonial-2.jpg',
       profession: 'JEN2SG',
-      rating: 5
+      rating: 5,
     },
     {
       name: 'Wonderful Travel Experience',
       date: 'April 28, 2025',
-      comment: 'We are two Italian friends, we spent 10 days exploring Sri Lanka. Our driver, Kumara, was incredibly kind and professional...',
+      comment:
+        'We are two Italian friends, we spent 10 days exploring Sri Lanka. Our driver, Kumara, was incredibly kind and professional...',
       photo: 'assets/img/testimonial-3.jpg',
       profession: 'MICHELA R',
-      rating: 5
+      rating: 5,
     },
     {
       name: 'Family With Little Ones In Sri Lanka',
       date: 'April 27, 2025',
-      comment: 'We had Dhana as our driver for days and he was instrumental in us having a lovely holiday! Everything with the company was super easy...',
+      comment:
+        'We had Dhana as our driver for days and he was instrumental in us having a lovely holiday! Everything with the company was super easy...',
       photo: 'assets/img/testimonial-4.jpg',
       profession: 'JOANA V',
-      rating: 5
-    }
+      rating: 5,
+    },
   ];
 
   constructor(
     private http: HttpClient,
-    private countryService: CountryService
+    private countryService: CountryService,
   ) {}
-  
+
   async ngOnInit() {
     this.userCountry = await this.countryService.detectCountry();
     this.dayTours = await this.loadToursWithPrices(toursData.dayTours);
-    this.multiDayTours = await this.loadToursWithPrices(toursData.multiDayTours);
+    this.multiDayTours = await this.loadToursWithPrices(
+      toursData.multiDayTours,
+    );
     this.autoSlide();
   }
 
@@ -75,12 +86,12 @@ reviews = [
     this.activeTab = tab;
   }
 
-    async loadToursWithPrices(tours: any[]) {
+  async loadToursWithPrices(tours: any[]) {
     return Promise.all(
       tours.map(async (tour) => {
         const price = await this.loadPrice(tour.filecode);
         return { ...tour, price };
-      })
+      }),
     );
   }
 
@@ -90,18 +101,40 @@ reviews = [
 
     return new Promise((resolve) => {
       this.http.get(countryFile).subscribe({
-        next: (data: any) => resolve(data.price[1] ?? 0),
+        next: (data: any) => {
+          if (data && data.price && data.price[1] != null) {
+            resolve(data.price[1]);
+          } else {
+            this.loadDefaultPrice(defaultFile, resolve);
+          }
+        },
         error: () => {
-          this.http.get(defaultFile).subscribe((data: any) => {
-            resolve(data.price[1] ?? 0);
-          });
-        }
+          this.loadDefaultPrice(defaultFile, resolve);
+        },
       });
     });
   }
 
+  private loadDefaultPrice(file: string, resolve: (v: number) => void) {
+    this.http.get(file).subscribe({
+      next: (data: any) => {
+        if (data && data.price && data.price[1] != null) {
+          resolve(data.price[1]);
+        } else {
+          console.error('Invalid default price file:', file);
+          resolve(0);
+        }
+      },
+      error: () => {
+        console.error('Default price file missing:', file);
+        resolve(0);
+      },
+    });
+  }
+
   prev() {
-    this.currentIndex = (this.currentIndex - 1 + this.reviews.length) % this.reviews.length;
+    this.currentIndex =
+      (this.currentIndex - 1 + this.reviews.length) % this.reviews.length;
   }
 
   next() {
@@ -118,9 +151,9 @@ reviews = [
     }, 5000);
   }
   scrollToSection(sectionId: string) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth' });
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   }
-}
 }
