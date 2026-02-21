@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import countriesData from './../../../assets/data/countries.json';
 import countryCode from './../../../assets/data/countryCode.json';
 import { catchError } from 'rxjs';
+import { CountryService } from '../../Services/country.service';
 
 @Component({
   selector: 'app-booking-component',
@@ -43,17 +44,23 @@ export class BookingComponent {
   phoneNumber = '';
   userCountry: string = 'US';
   groupNotice = '';
+  currencySymbol: string = 'USD';
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private countryService: CountryService
   ) {}
 
   async ngOnInit() {
-    this.userCountry = await this.detectCountry();
-    console.log('User country detected as:', this.userCountry);
+    this.userCountry = await this.countryService.detectCountry();
     this.generateOrderNumber();
+    if (this.userCountry === 'IT') {
+      this.currencySymbol = 'EUR';
+    } else {
+      this.currencySymbol = 'USD';
+    }
 
     const navState = this.router.getCurrentNavigation()?.extras.state as {
       tour: any;
@@ -101,16 +108,6 @@ export class BookingComponent {
       : this.phoneNumber;
   }
 
-  async detectCountry(): Promise<string> {
-    try {
-      const res = await fetch('https://ipapi.co/json/');
-      const data = await res.json();
-      return data.country;
-    } catch {
-      return 'US';
-    }
-  }
-
   loadTourPrices(fileName: string) {
     const countryFile = `/assets/data/${this.userCountry}${fileName}.json`;
     const defaultFile = `/assets/data/US${fileName}.json`;
@@ -152,8 +149,12 @@ export class BookingComponent {
     this.travelers = isNaN(value) || value < 1 ? 1 : value;
     this.updateAmounts();
 
-    if (this.userCountry === 'IT' && this.travelers >= 7) {
-      this.groupNotice ='For groups of 7 or more travelers, please contact ceylonparadisetou.it@gmail.com for a customized group tour arrangement.';
+    if (this.travelers >= 7) {
+      if (this.userCountry === 'IT') {
+        this.groupNotice ='For groups of 7 or more travelers, please contact ceylonparadisetou.it@gmail.com for a customized group tour arrangement.';
+      } else {
+        this.groupNotice ='For groups of 7 or more travelers, please contact ceylonparadisetou@gmail.com for a customized group tour arrangement.'
+      }
     } else {
       this.groupNotice = '';
     }

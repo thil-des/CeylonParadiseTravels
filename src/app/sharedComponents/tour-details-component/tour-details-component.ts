@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Type } from '@angular/core';
+import { CountryService } from '../../Services/country.service';
 
 export interface Activity {
-  type: string;          // e.g. "Guided tour", "Accommodation", "Dinner"
-  title: title;        // e.g. "Pidurangala Rock", "Fresco Water Villa"
-  description?: string;  // e.g. "Little hike to Pidurangala Rock..."
-  icon?: string;         // e.g. "fa-hotel", "fa-hiking", "fa-utensils"
-  image?: string;        // optional image path
-  extra?: string[];      // optional extra details (e.g. "Private bathroom")
+  type: string; // e.g. "Guided tour", "Accommodation", "Dinner"
+  title: title; // e.g. "Pidurangala Rock", "Fresco Water Villa"
+  description?: string; // e.g. "Little hike to Pidurangala Rock..."
+  icon?: string; // e.g. "fa-hotel", "fa-hiking", "fa-utensils"
+  image?: string; // optional image path
+  extra?: string[]; // optional extra details (e.g. "Private bathroom")
 }
 
 export interface title {
@@ -43,9 +44,11 @@ export interface TourDetails {
 })
 export class TourDetailsComponent {
   @Input() tour!: TourDetails;
+  userCountry: string = 'US';
 
   expandedDays: { [key: number]: boolean } = {};
   static PackageItemComponent: readonly any[] | Type<any>;
+  currencySymbol: string = 'USD';
 
   toggleDay(day: number) {
     const isAlreadyOpen = this.expandedDays[day];
@@ -57,17 +60,23 @@ export class TourDetailsComponent {
     }
   }
 
-  constructor() {}
+  constructor(private countryService: CountryService) {}
 
   selectedImage: string | null = null;
 
-openImage(img: string) {
-  this.selectedImage = img;
-}
+  openImage(img: string) {
+    this.selectedImage = img;
+  }
 
-closeImage() {
-  this.selectedImage = null;
-}
-  ngOnInit(): void {
+  closeImage() {
+    this.selectedImage = null;
+  }
+  async ngOnInit(): Promise<void> {
+    this.userCountry = await this.countryService.detectCountry();
+    if (this.userCountry === 'IT') {
+      this.currencySymbol = 'EUR';
+    } else {
+      this.currencySymbol = 'USD';
+    }
   }
 }
