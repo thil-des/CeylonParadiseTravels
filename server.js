@@ -152,7 +152,7 @@ app.post("/send-contact-email", async (req, res) => {
     
     let adminEmails = ["ceylonparadisetou@gmail.com"];
 
-    if (userCountry === "LK") {
+    if (userCountry === "IT") {
       adminEmails = [
         "ceylonparadisetou@gmail.com",
         "ceylonparadisetou.it@gmail.com",
