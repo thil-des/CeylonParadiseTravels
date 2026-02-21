@@ -43,6 +43,20 @@ body { top: 0px !important; }
     color: #261124; /* Text color on hover */
 }
 
+@media (max-width: 768px) {
+
+  .navbar-brand h1 {
+    font-size: 18px !important;
+    white-space: nowrap;
+  }
+
+  .navbar-brand img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+}
+
 .whatsapp-float {
     position: fixed;
     left: 20px;        
@@ -133,55 +147,4 @@ body { top: 0px !important; }
   opacity: 1;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 0 0 1px rgba(255,255,255,0.5);
-}
-
-/* TOP BAR */
-.topbar {
-    background-color: #261124;
-    color: #ada878;
-}
-
-/* MAIN NAVBAR ONLY */
-.nav-bar {
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-}
-
-.navbar-color {
-    background-color: #261124;
-}
-@media (max-width: 768px) {
-    .navbar-brand h1 {
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .navbar-brand img {
-        width: 40px !important;
-        height: 40px !important;
-    }
-}
-@media (max-width: 991px) {
-    .navbar-collapse {
-        background-color: #261124;
-        padding: 15px;
-    }
-
-    .navbar-nav .nav-link {
-        padding: 10px 0;
-    }
-}
-@media (max-width: 768px) {
-  .topbar {
-    text-align: center;
-    font-size: 13px;
-  }
-
-  .topbar .lang-pill,
-  .topbar .btn {
-    margin-top: 5px;
-  }
 }
