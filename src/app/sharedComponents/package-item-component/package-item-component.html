@@ -9,7 +9,7 @@
     <div class="border-top mt-4 pt-4">
       <div class="d-flex justify-content-between">
         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>{{ rating }}</h6>
-        <h5 class="m-0">$ {{ price | number:'1.2-2' }}</h5>
+        <h5 class="m-0">{{ price | currency: currencySymbol:'symbol':'1.2-2' }}</h5>
       </div>
     </div>
   </div>
