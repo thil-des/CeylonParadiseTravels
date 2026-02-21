@@ -20,6 +20,7 @@ export class ContactUsComponent {
   countriesList = countryCode;
   selectedCountryCode: string = 'LK'; 
   phoneNumber:string = '';
+  userCountry: string = 'US';
 
   constructor(private fb: FormBuilder, private http: HttpClient, toastr:ToastrService) {
     this.contactForm = this.fb.group({
@@ -30,15 +31,29 @@ export class ContactUsComponent {
     });
   }
 
+  async ngOnInit() {
+    this.userCountry = await this.detectCountry();
+  }
+
+    async detectCountry(): Promise<string> {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      return data.country;
+    } catch {
+      return 'US';
+    }
+  }
+
   onSubmit() {
     if (this.contactForm.valid) {
-      console.log('Selected Country Code:', this.selectedCountryCode);
       const country = this.countriesList.find(c => c.code === this.selectedCountryCode);
       const fullPhoneNumber = (country?.dial_code ?? '') + this.contactForm.get('contactPhone')?.value;
 
       const formData = {
         ...this.contactForm.value,
         contactPhone: fullPhoneNumber,
+        userCountry: this.userCountry,
       };
 
       console.log('Form Data:', formData);

@@ -56,6 +56,9 @@
         <div class="col-lg-6" *ngIf="!bookingCompleted">
             <div class=" shadow-lg border-0 rounded-3 p-4 ">
                 <h4 class="mb-3 text-center">Book Your Tour</h4>
+                <div *ngIf="groupNotice" class="alert alert-info mt-2">
+                    {{ groupNotice }}
+                </div>
                 <form #bookingForm="ngForm" (ngSubmit)="completeBooking()">
                     <div class="row g-3 mb-3">
                         <div class="col-lg-6">
@@ -151,7 +154,7 @@
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary w-100 rounded fw-bold"
-                        [disabled]="bookingForm.invalid">
+                        [disabled]="bookingForm.invalid || groupNotice">
                         Complete Booking
                     </button>
                 </form>

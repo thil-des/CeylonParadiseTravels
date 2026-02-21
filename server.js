@@ -20,6 +20,7 @@ app.post("/send-booking-email", async (req, res) => {
     total,
     bookingDate,
     travelDate,
+    countryuser,
   } = req.body;
 
   try {
@@ -33,9 +34,18 @@ app.post("/send-booking-email", async (req, res) => {
       },
     });
 
+    let adminEmail = "ceylonparadisetou@gmail.com";
+
+    if (countryuser === "IT") {
+      adminEmail = [
+        "ceylonparadisetou@gmail.com",
+        "ceylonparadisetou.it@gmail.com",
+      ];
+    }
+
     const mailOptions = {
-      from: '"Tour Booking" <ceylonparadisetou@gmail.com>',
-      to: "ceylonparadisetou@gmail.com",
+      from: '"Tour Booking" <ceylonparadisetou@gmail.com >',
+      to: adminEmail,
       subject: `New Booking Received - ${orderNumber}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333;">
@@ -127,7 +137,7 @@ app.post("/send-booking-email", async (req, res) => {
 app.post("/send-contact-email", async (req, res) => {
   console.log('Received contact email request:', req);
 
-  const { name, email, whatsapp, message } = req.body;
+  const { name, email, whatsapp, message, userCountry } = req.body;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -139,10 +149,19 @@ app.post("/send-contact-email", async (req, res) => {
         pass: "vmcyjknsjlwqydur",
       },
     });
+    
+    let adminEmails = ["ceylonparadisetou@gmail.com"];
+
+    if (userCountry === "LK") {
+      adminEmails = [
+        "ceylonparadisetou@gmail.com",
+        "ceylonparadisetou.it@gmail.com",
+      ];
+    }
 
     await transporter.sendMail({
       from: `"Contact Form" <${email}>`,
-      to: "ceylonparadisetou@gmail.com",
+      to: adminEmails,
       subject: `📩 New Contact Form Submission from ${name}`,
       html: `
         <div style="font-family: Arial;">
