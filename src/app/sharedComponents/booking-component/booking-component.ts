@@ -42,6 +42,7 @@ export class BookingComponent {
   selectedCountry = this.countriesList.find((c) => c.code === 'LK');
   phoneNumber = '';
   userCountry: string = 'US';
+  groupNotice = '';
 
   constructor(
     private router: Router,
@@ -150,6 +151,12 @@ export class BookingComponent {
     const value = parseInt(event.target.value, 10);
     this.travelers = isNaN(value) || value < 1 ? 1 : value;
     this.updateAmounts();
+
+    if (this.userCountry === 'IT' && this.travelers >= 7) {
+      this.groupNotice ='For groups of 7 or more travelers, please contact ceylonparadisetou.it@gmail.com for a customized group tour arrangement.';
+    } else {
+      this.groupNotice = '';
+    }
   }
 
   updateAmounts() {
@@ -178,6 +185,7 @@ export class BookingComponent {
       total: this.total,
       bookingDate: this.bookingDate,
       travelDate: this.travelDate,
+      countryuser: this.userCountry,
     };
 
     this.successMessage = 'Processing your booking...';
