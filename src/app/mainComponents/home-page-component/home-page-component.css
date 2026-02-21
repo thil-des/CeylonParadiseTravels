@@ -79,7 +79,7 @@
 
 .testimonial-cards {
   display: flex;
-  overflow: hidden;
+  transition: transform 0.5s ease-in-out;
 }
 
 .testimonial-card {
@@ -213,6 +213,30 @@
     flex-grow: 1;
 }
 
+/* Full screen option */
+.carousel-item img {
+    height: 100vh;
+    object-fit: cover;
+}
+
+#header-carousel, 
+#header-carousel .carousel-inner, 
+#header-carousel .carousel-item {
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+#header-carousel .carousel-item::before {
+    content: none; /* disables overlay if applied via pseudo-element */
+}
+#header-carousel .carousel-caption {
+    background: transparent !important;
+}
+#header-carousel .carousel-item img {
+    width: 100%;
+    height: 600px; /* match carousel height */
+    object-fit: cover; /* keeps image proportion while filling container */
+}
 
 html, body {
     overflow-x: hidden;
@@ -220,108 +244,5 @@ html, body {
     padding: 0;
     scroll-behavior: smooth !important;
 }
-/* ===== CLEAN RESPONSIVE CAROUSEL ===== */
 
-#header-carousel {
-    width: 100%;
-}
 
-#header-carousel .carousel-item {
-    height: 100vh;
-}
-
-#header-carousel .carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Tablet */
-@media (max-width: 992px) {
-    #header-carousel .carousel-item {
-        height: 75vh;
-    }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-    #header-carousel .carousel-item {
-        height: 60vh;
-    }
-
-    #header-carousel h1 {
-        font-size: 22px !important;
-        line-height: 1.3;
-    }
-
-    #header-carousel .btn {
-        padding: 8px 18px !important;
-        font-size: 13px;
-    }
-
-    #header-carousel .carousel-control-prev,
-    #header-carousel .carousel-control-next {
-        display: none;
-    }
-}
-@media (max-width: 576px) {
-
-    .destination-item img {
-        height: 220px;
-        object-fit: cover;
-    }
-
-    .text-center h1 {
-        font-size: 22px;
-    }
-}
-.about-img {
-    min-height: 500px;
-}
-
-@media (max-width: 992px) {
-    .about-img {
-        min-height: 300px;
-        margin-bottom: 30px;
-    }
-}
-@media (max-width: 768px) {
-
-    .container-fluid .col-md-4 {
-        margin-bottom: 30px;
-    }
-
-    .d-flex.flex-shrink-0 {
-        height: 70px !important;
-        width: 70px !important;
-    }
-
-    .d-flex.flex-shrink-0 i {
-        font-size: 20px !important;
-    }
-}
-@media (max-width: 576px) {
-    .team-item {
-        margin-bottom: 20px;
-    }
-
-    .team-item h5 {
-        font-size: 16px;
-    }
-}
-@media (max-width: 768px) {
-
-    .container-fluid.py-5 {
-        padding-top: 50px !important;
-        padding-bottom: 50px !important;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h6 {
-        font-size: 12px;
-        letter-spacing: 2px !important;
-    }
-}
