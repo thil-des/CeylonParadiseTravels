@@ -36,9 +36,11 @@ app.post("/send-booking-email", async (req, res) => {
 
     let senderEmail = "ceylonparadisetou@gmail.com";
     let adminEmail = "ceylonparadisetou@gmail.com";
+    let ccEmail = null;
 
     if (countryuser === "IT") {
       senderEmail = "ceylonparadisetou.it@gmail.com";
+      ccEmail = "ceylonparadisetou.it@gmail.com";
       adminEmail = [
         "ceylonparadisetou@gmail.com",
         "ceylonparadisetou.it@gmail.com",
@@ -88,6 +90,7 @@ app.post("/send-booking-email", async (req, res) => {
     const customerMailOptions = {
       from: '"Ceylon Paradise Tours"',
       to: email,
+      ...(ccEmail && { cc: ccEmail }),
       subject: `Thank you for your booking! - ${tour.title}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333; background: #f9f9f9; padding: 20px; border-radius: 10px;">
