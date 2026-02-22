@@ -22,7 +22,7 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
-  const { name, email, contactPhone, message } = req.body;
+  const { name, email, contactPhone, message, userCountry } = req.body;
 
 
   try {
@@ -36,9 +36,23 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       },
     });
 
+    let senderEmail = "ceylonparadisetou@gmail.com";
+    let adminEmails = [process.env.EMAIL_USER];
+
+    const userCountryCode = (userCountry || "").toUpperCase();
+
+    if (userCountryCode === "IT") {
+      senderEmail = "ceylonparadisetou.it@gmail.com";
+      adminEmails = [
+        process.env.EMAIL_USER,
+        "ceylonparadisetou.it@gmail.com",
+      ];
+    }
+
     await transporter.sendMail({
-      from: `"Contact Form" <${email}>`,
-      to: process.env.EMAIL_USER,
+      from: `"Contact Form" <${senderEmail}>`,
+      replyTo: email,
+      to: adminEmails,
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <div style="font-family: Arial;">
