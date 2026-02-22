@@ -1,7 +1,10 @@
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin",  "https://ceylonparadisetravels.com");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://ceylonparadisetravels.com",
+  );
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -25,6 +28,7 @@ export default async function handler(req, res) {
     total,
     bookingDate,
     travelDate,
+    countryuser,
   } = req.body;
 
   try {
@@ -38,15 +42,48 @@ export default async function handler(req, res) {
       },
     });
 
+    let adminEmails = [process.env.EMAIL_USER];
+    const userCountryCode = (countryuser || "").toUpperCase();
+
+    if (userCountryCode === "IT") {
+      adminEmails = [process.env.EMAIL_USER, "ceylonparadisetou.it@gmail.com"];
+    }
+
+    let locale = "en-US";
+    let currency = "USD";
+    let timeZone = "UTC";
+
+    if (userCountryCode === "IT") {
+      locale = "it-IT";
+      currency = "EUR";
+      timeZone = "Europe/Rome";
+    }
+
+    const formattedBookingDate = new Date(bookingDate).toLocaleString(locale, {
+      timeZone: timeZone,
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+
+    const formattedTravelDate = new Date(travelDate).toLocaleString(locale, {
+      timeZone: timeZone,
+      dateStyle: "medium",
+    });
+
+    const formattedTotal = new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: currency,
+    }).format(total);
+
     const mailOptions = {
       from: `"Tour Booking" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+      to: adminEmails,
       subject: `New Booking Received - ${orderNumber}`,
       html: `
     <div style="font-family: Arial, sans-serif; color: #333;">
       <h1 style="color: #4CAF50;">🎉 New Booking Received!</h1>
       <p><strong>Order Number:</strong> ${orderNumber}</p>
-      <p><strong>Date:</strong> ${new Date(bookingDate).toLocaleString()}</p>
+      <p><strong>Date:</strong> ${formattedBookingDate}</p>
 
       <hr style="border: 1px solid #eee; margin: 20px 0;" />
 
@@ -65,10 +102,8 @@ export default async function handler(req, res) {
       <ul style="list-style: none; padding: 0;">
         <li><strong>Tour:</strong> ${tour.title}</li>
         <li><strong>Duration:</strong> ${tour.duration}</li>
-        <li><strong>Travel Date:</strong> ${new Date(
-          travelDate
-        ).toLocaleString()}</li>
-        <li><strong>Total:</strong> $${total}</li>
+        <li><strong>Travel Date:</strong> ${formattedTravelDate}</li>
+        <li><strong>Total (${currency}):</strong> ${formattedTotal}</li>
       </ul>
 
       <p style="color: #555;">Please make sure to confirm and prepare for the tour!</p>
@@ -98,13 +133,11 @@ export default async function handler(req, res) {
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;"><strong>Date</strong></td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${new Date(
-            bookingDate
-          ).toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${formattedBookingDate}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;"><strong>Total</strong></td>
-          <td style="padding: 10px; border: 1px solid #ddd;">$${total}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${formattedTotal}</td>
         </tr>
       </table>
 
@@ -127,4 +160,4 @@ export default async function handler(req, res) {
       .status(500)
       .json({ success: false, message: "Error sending email", error });
   }
-};
+}
