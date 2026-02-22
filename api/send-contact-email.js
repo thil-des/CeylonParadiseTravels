@@ -36,11 +36,13 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       },
     });
 
+    let senderEmail = "ceylonparadisetou@gmail.com";
     let adminEmails = [process.env.EMAIL_USER];
 
     const userCountryCode = (userCountry || "").toUpperCase();
 
     if (userCountryCode === "IT") {
+      senderEmail = "ceylonparadisetou.it@gmail.com";
       adminEmails = [
         process.env.EMAIL_USER,
         "ceylonparadisetou.it@gmail.com",
@@ -48,7 +50,7 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     }
 
     await transporter.sendMail({
-      from: `"Contact Form" <${process.env.EMAIL_USER}>`,
+      from: `"Contact Form" <${senderEmail}>`,
       replyTo: email,
       to: adminEmails,
       subject: `New Contact Form Submission from ${name}`,

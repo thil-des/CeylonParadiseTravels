@@ -42,10 +42,13 @@ export default async function handler(req, res) {
       },
     });
 
+    
+    let senderEmail = "ceylonparadisetou@gmail.com";
     let adminEmails = [process.env.EMAIL_USER];
     const userCountryCode = (countryuser || "").toUpperCase();
 
     if (userCountryCode === "IT") {
+      senderEmail = "ceylonparadisetou.it@gmail.com";
       adminEmails = [process.env.EMAIL_USER, "ceylonparadisetou.it@gmail.com"];
     }
 
@@ -76,7 +79,7 @@ export default async function handler(req, res) {
     }).format(total);
 
     const mailOptions = {
-      from: `"Tour Booking" <${process.env.EMAIL_USER}>`,
+      from: `"Tour Booking" <${senderEmail}>`,
       to: adminEmails,
       subject: `New Booking Received - ${orderNumber}`,
       html: `
