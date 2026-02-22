@@ -38,10 +38,12 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     let senderEmail = "ceylonparadisetou@gmail.com";
     let adminEmails = [process.env.EMAIL_USER];
+    let ccEmail = null;
 
     const userCountryCode = (userCountry || "").toUpperCase();
 
     if (userCountryCode === "IT") {
+      ccEmail = "ceylonparadisetou.it@gmail.com";
       senderEmail = "ceylonparadisetou.it@gmail.com";
       adminEmails = [
         process.env.EMAIL_USER,
@@ -69,6 +71,7 @@ res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     await transporter.sendMail({
       from: '"Ceylon Paradise Tours"',
       to: email,
+      ...(ccEmail && { cc: ccEmail }),
       subject: `We received your message, ${name}`,
       html: `
         <div style="font-family: Arial; background: #f9f9f9; padding: 20px;">
