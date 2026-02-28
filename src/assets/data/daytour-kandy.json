@@ -1,5 +1,16 @@
 {
     "name": "daytour-galle",
+    "title": "Sri Lanka Kandy One Day Tour",
+    "duration": "One Day",
+    "tourType": "Day Tour",
+    "overview": "Experience the cultural heart of Sri Lanka with a full-day guided tour to Kandy including elephants, temples, tea and scenic views.",
+    "images": [
+        "assets/img/onedayTour/kandy/1.jpg",
+        "assets/img/onedayTour/kandy/2.jpg",
+        "assets/img/onedayTour/kandy/3.jpg",
+        "assets/img/onedayTour/kandy/4.jpg",
+        "assets/img/onedayTour/kandy/5.jpg"
+    ],
     "price": {
         "1": 266.69,
         "2": 386.70,

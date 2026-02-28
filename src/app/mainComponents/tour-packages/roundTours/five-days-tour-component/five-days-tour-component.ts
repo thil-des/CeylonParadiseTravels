@@ -476,7 +476,7 @@ This tour covers 20+ must-see attractions across 10 districts, including the thr
     localStorage.setItem('tour', JSON.stringify(this.tour));
     localStorage.setItem('filecode', barcode);
     localStorage.setItem('image', this.images[0]);
-    this.router.navigate(['/booking'], {
+    this.router.navigate(['/booking',barcode], {
       state: {
         tour: this.tour,
         barcode: barcode,

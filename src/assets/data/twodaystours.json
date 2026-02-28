@@ -1,5 +1,16 @@
 {
     "name": "twodaystours",
+    "title": "Sri Lanka Two Days Tour",
+    "duration": "2 Days",
+    "tourType": "Round Tour",
+    "overview": "Experience Sigiriya and Kandy in this 2-day private round tour with deluxe accommodation and safari experience.",
+    "images": [
+        "assets/img/2daysTours/bu73qw3nuu3obcvpsegn.jpg",
+        "assets/img/2daysTours/ctqieqx5ojk33b3sg7zv.jpg",
+        "assets/img/2daysTours/ee9i4pplrqkjewusnhko.jpg",
+        "assets/img/2daysTours/imbkh8kscrihzyrtdllf.jpg",
+        "assets/img/2daysTours/himbgjcj6zckm6de1mhe.jpg"
+    ],
     "price": {
         "1": 450.00,
         "2": 562.50,
