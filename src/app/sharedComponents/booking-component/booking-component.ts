@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -50,7 +50,8 @@ export class BookingComponent {
     private router: Router,
     private http: HttpClient,
     private toastr: ToastrService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private route:ActivatedRoute
   ) {}
 
   async ngOnInit() {
@@ -61,6 +62,12 @@ export class BookingComponent {
     } else {
       this.currencySymbol = 'USD';
     }
+
+    this.route.paramMap.subscribe((params) => {
+      this.filecode = params.get('filecode')!;
+      this.loadTourPrices(this.filecode);
+    });
+
 
     const navState = this.router.getCurrentNavigation()?.extras.state as {
       tour: any;
@@ -123,6 +130,15 @@ export class BookingComponent {
       )
       .subscribe((data: any) => {
         this.prices = data.price;
+        this.tour.title = data.title;
+        this.tour.duration = data.duration;
+        this.tour.tourType = data.tourType;
+        this.tour.overview = data.overview;
+        this.image = data.images[0];
+
+        localStorage.setItem('tour', JSON.stringify(this.tour));
+        localStorage.setItem('filecode', this.filecode);
+        localStorage.setItem('image', this.image);
         localStorage.setItem('prices', JSON.stringify(this.prices));
         this.updateAmounts();
       });

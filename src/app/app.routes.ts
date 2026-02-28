@@ -21,81 +21,83 @@ import { GalleDayTour } from './mainComponents/tour-packages/dayTours/galle-day-
 import { KandyDayTourComponent } from './mainComponents/tour-packages/dayTours/kandy-day-tour-component/kandy-day-tour-component';
 import { SigiriyaDayTourComponent } from './mainComponents/tour-packages/dayTours/sigiriya-day-tour-component/sigiriya-day-tour-component';
 
-
-
-
 export const routes: Routes = [
-    { path: '', 
-      component: LayoutComponent ,
-      children: [
-        {
-          path: '',
-          component: HomePageComponent
-        },
-        {
-          path: 'about',
-          component: AboutComponent
-        },
-        {
-          path: 'service',
-          component: ServiceComponent
-        },
-        {
-          path: 'packages',
-          component: TourPackages
-        },
-        {
-          path: 'sevendaystours',
-          component: SevenDaysTourComponent
-        },
-        {
-          path: 'tendaystours',
-          component: TenDaysTourComponent
-        },
-        {
-          path: 'twodaystours',
-          component: TwoDayTourComponent
-        },
-        {
-          path: 'Elladaystours',
-          component: EllaDayTourComponent
-        },
-        {
-          path: 'Galledaystours',
-          component: GalleDayTour
-        },
-        {
-          path: 'Kandydaystours',
-          component: KandyDayTourComponent
-        },
-        {
-          path: 'Sirgiriyadaystours',
-          component: SigiriyaDayTourComponent
-        },
-        {
-          path: 'fivedaystours',
-          component: FiveDaysTourComponent
-        },
-        {
-          path: 'booking',
-          component: BookingComponent
-        },
-        {
-          path: 'contact',
-          component: ContactUsComponent
-        },
-        {
-          path: 'destination',
-          component: DestinationComponent
-        },
-        {
-          path: 'testimonial',
-          component :Testimonial
-        },
-        {
-          path: 'travel-guides',
-          component: TravelGuides
-        }
-      ]
-    }
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        component: HomePageComponent,
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
+      },
+      {
+        path: 'service',
+        component: ServiceComponent,
+      },
+      {
+        path: 'packages',
+        component: TourPackages,
+      },
+      {
+        path: 'sevendaystours',
+        component: SevenDaysTourComponent,
+      },
+      {
+        path: 'tendaystours',
+        component: TenDaysTourComponent,
+      },
+      {
+        path: 'twodaystours',
+        component: TwoDayTourComponent,
+      },
+      {
+        path: 'Elladaystours',
+        component: EllaDayTourComponent,
+      },
+      {
+        path: 'Galledaystours',
+        component: GalleDayTour,
+      },
+      {
+        path: 'Kandydaystours',
+        component: KandyDayTourComponent,
+      },
+      {
+        path: 'Sirgiriyadaystours',
+        component: SigiriyaDayTourComponent,
+      },
+      {
+        path: 'fivedaystours',
+        component: FiveDaysTourComponent,
+      },
+      {
+        path: 'booking/:filecode',
+        component: BookingComponent,
+      },
+      {
+        path: 'contact',
+        component: ContactUsComponent,
+      },
+      {
+        path: 'destination',
+        component: DestinationComponent,
+      },
+      {
+        path: 'testimonial',
+        component: Testimonial,
+      },
+      {
+        path: 'travel-guides',
+        component: TravelGuides,
+      },
+      {
+        path: '**',
+        redirectTo: '',
+      },
+    ],
+  },
 ];

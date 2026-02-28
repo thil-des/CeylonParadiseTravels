@@ -217,7 +217,7 @@ export class SigiriyaDayTourComponent {
     localStorage.setItem('tour', JSON.stringify(this.tour));
     localStorage.setItem('filecode', barcode);
     localStorage.setItem('image', this.images[0]);
-    this.router.navigate(['/booking'], {
+    this.router.navigate(['/booking',barcode], {
       state: {
         tour: this.tour,
         barcode: barcode,

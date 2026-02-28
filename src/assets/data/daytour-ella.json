@@ -1,5 +1,13 @@
 {
     "name": "daytour-ella",
+    "title": "Sri Lanka Ella One Day Tour",
+    "duration": "One Day",
+    "tourType": "Day Tour",
+    "overview": "Discover the beauty of Sri Lanka...",
+    "images": [
+        "assets/img/onedayTour/ella/1.jpg",
+        "assets/img/onedayTour/ella/2.jpg"
+    ],
     "price": {
         "1": 266.69,
         "2": 386.70,

@@ -1,5 +1,16 @@
 {
   "name": "sevendaystours",
+  "title": "Sri Lanka Seven Days Tour",
+  "duration": "7 Days",
+  "tourType": "Round Tour",
+  "overview": "Explore Sri Lanka in 7 days covering Sigiriya, Kandy, Ella, Yala, Nuwara Eliya, Mirissa, Galle and Bentota with premium accommodation and private transport.",
+  "images": [
+    "assets/img/7dayschange/2.jpeg",
+    "assets/img/7dayschange/1.jpeg",
+    "assets/img/7dayschange/w3a48osbcocecoaaq9hd.jpg",
+    "assets/img/7dayschange/tijr5ztiozgdesbxotm4.jpg",
+    "assets/img/7dayschange/dqzhbtiaqzhf0hxbbrar.jpg"
+  ],
   "price": {
     "1": 1125.00,
     "2": 1700.00,
